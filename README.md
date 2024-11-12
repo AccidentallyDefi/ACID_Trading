@@ -135,6 +135,45 @@ To protect sensitive information like wallet addresses, private keys, and API ke
 ### 4. **Error Handling**
    - Includes error handling for failed API requests, unavailable data, and Web3 connection issues.
 
+### Running the Trading Bot with Command-Line Arguments
+This trading bot allows users to configure specific parameters directly from the command line, including RSI settings and position management thresholds.
+
+Command-Line Arguments
+Argument	Description	Default Value
+--rsi_period	The period for calculating the RSI indicator.	14
+--rsi_buy_threshold	The RSI value below which to trigger a 'long' (buy) signal.	41
+--rsi_sell_threshold	The RSI value above which to trigger a 'short' (sell) signal.	60
+--open_percentage	The percentage of wallet balance to use when opening a position.	0.1 (10%)
+--close_percentage	The percentage of the current position to close when closing a trade.	0.1 (90%)
+Example Usage
+Run the bot with default values by simply executing:
+
+bash
+Copy code
+python trading_bot.py
+To customize the parameters, provide the desired values as command-line arguments. For example:
+
+bash
+Copy code
+python trading_bot.py --rsi_period 14 --rsi_buy_threshold 30 --rsi_sell_threshold 70 --open_percentage 0.2 --close_percentage 0.05
+This command will:
+
+Calculate the RSI using a period of 14.
+Trigger a 'long' signal when RSI falls below 30.
+Trigger a 'short' signal when RSI goes above 70.
+Use 20% of the wallet balance for each new position.
+Close 95% of the position when a signal to close is triggered, retaining 5%.
+Running with Environment Variables
+Ensure that the environment variables RPC_URL, PRIVATE_KEY, and WALLET_ADDRESS are set in a .env file or in your environment to allow secure access to the blockchain. Example .env file:
+
+dotenv
+Copy code
+RPC_URL="your_rpc_url"
+WALLET_ADDRESS="your_wallet_address"
+PRIVATE_KEY="your_private_key"
+Important Note
+Verify the parameters carefully before running the bot, as they directly affect trading behavior and risk exposure.
+
 ## Security Considerations
 
 1. **Never Hardcode Private Keys**: Always load keys from environment variables or secure vaults.
