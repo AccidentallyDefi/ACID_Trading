@@ -179,15 +179,37 @@ def initialize_historical_data():
     return eth_data
 
 
-# Generate trading signals based on RSI
-def generate_signals(data):
-    print("Generating RSI-based trading signals...")
-    data['RSI'] = ta.RSI(data['Close'], timeperiod=14)
-    data['Long'] = np.where(data['RSI'] < 41, 1, 0)
-    data['Short'] = np.where(data['RSI'] > 60, -1, 0)
+# Generate trading signals based on RSI with configurable parameters
+def generate_signals(data, rsi_period=14, rsi_buy_threshold=41, rsi_sell_threshold=60):
+    """
+    Generate trading signals based on the RSI indicator.
+    
+    Parameters:
+    - data: DataFrame containing price data.
+    - rsi_period: The period for calculating RSI.
+    - rsi_buy_threshold: The RSI value below which to trigger a 'long' signal.
+    - rsi_sell_threshold: The RSI value above which to trigger a 'short' signal.
+    
+    Returns:
+    - signal: The last row of the data containing the RSI and trading signals.
+    """
+    print(f"Generating RSI-based trading signals with parameters: "
+          f"Period={rsi_period}, Buy Threshold={rsi_buy_threshold}, Sell Threshold={rsi_sell_threshold}")
+    
+    # Calculate RSI based on the user-defined period
+    data['RSI'] = ta.RSI(data['Close'], timeperiod=rsi_period)
+    
+    # Generate long and short signals based on thresholds
+    data['Long'] = np.where(data['RSI'] < rsi_buy_threshold, 1, 0)
+    data['Short'] = np.where(data['RSI'] > rsi_sell_threshold, -1, 0)
+    
+    # Calculate position
     data['Position'] = data['Long'] + data['Short']
+    
+    # Extract the latest signal
     signal = data.iloc[-1]
     print(f"Generated signal - RSI: {signal['RSI']}, Position: {signal['Position']}")
+    
     return signal
 
 # Increase Position
@@ -304,15 +326,29 @@ def close_position(is_long, eth_price, size_delta_usd, percentage):
 
 
 # Main trading loop
-def run_trading_bot():
+def run_trading_bot(rsi_period=14, rsi_buy_threshold=41, rsi_sell_threshold=60, open_percentage=0.1, close_percentage=0.1):
+    """
+    Main loop for the trading bot.
+    
+    Parameters:
+    - rsi_period: The period for calculating RSI.
+    - rsi_buy_threshold: The RSI value below which to trigger a 'long' signal.
+    - rsi_sell_threshold: The RSI value above which to trigger a 'short' signal.
+    - open_percentage: The percentage of the wallet balance to use when opening a position.
+    - close_percentage: The percentage of the current position to close.
+    """
     global current_position
     print("Starting trading bot...")
+    
+    # Initialize historical data
     historical_data = initialize_historical_data()
     current_position = 0
     current_position_value = 0  # Track the value of the current position
 
     while True:
         print("Running bot iteration...")
+        
+        # Fetch the latest market data
         eth_price = fetch_market_data()
 
         # Ensure eth_price is valid before continuing
@@ -321,13 +357,20 @@ def run_trading_bot():
             time.sleep(60)
             continue
 
-        # Update historical data and calculate RSI signals
-        latest_signal = generate_signals(historical_data)
+        # Update historical data and calculate RSI signals with user-defined parameters
+        latest_signal = generate_signals(
+            historical_data,
+            rsi_period=rsi_period,
+            rsi_buy_threshold=rsi_buy_threshold,
+            rsi_sell_threshold=rsi_sell_threshold
+        )
 
         # Get wallet balance and calculate appropriate size_delta_usd for open/close
         wallet_balance_usd = get_wallet_balance()
-        open_percentage = 0.1  # Example: Use 10% of wallet balance for opening positions
-        close_percentage = 0.1  # Example: Close 90% of the current position, retaining 10%
+        if wallet_balance_usd is None:
+            print("Error fetching wallet balance. Retrying in 1 minute.")
+            time.sleep(60)
+            continue
 
         # Open a Long Position
         if latest_signal['Position'] == 1 and current_position == 0:
