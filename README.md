@@ -135,7 +135,7 @@ To protect sensitive information like wallet addresses, private keys, and API ke
 ### 4. **Error Handling**
    - Includes error handling for failed API requests, unavailable data, and Web3 connection issues.
 
-### Running the Trading Bot with Command-Line Arguments
+### 5. **Running the Trading Bot with Command-Line Arguments**
 This trading bot allows users to configure specific parameters directly from the command line, including RSI settings and position management thresholds.
 
 Command-Line Arguments
