@@ -1,0 +1,5 @@
+rpc: ${RPC_URL}
+chain_ids:
+  arbitrum: 42161
+private_key: ${PRIVATE_KEY}
+user_wallet_address: ${WALLET_ADDRESS}
