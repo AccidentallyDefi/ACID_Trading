@@ -1,4 +1,4 @@
-rpc: ${RPC_URL}
+rpc: "https://arbitrum.llamarpc.com"
 chain_ids:
   arbitrum: 42161
 private_key: ${PRIVATE_KEY}

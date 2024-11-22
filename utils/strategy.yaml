@@ -1,0 +1,16 @@
+strategy:
+  bollinger_bands:
+    length: {INTEGER NUMBER, WHOLE NUMBER}
+    multiplier: {PERCENTAGE * 100, EX: 1.0 FOR 1%}
+  rsi:
+    length: {INTEGER NUMBER, WHOLE NUMBER}
+    overbought: {INTEGER NUMBER, WHOLE NUMBER}
+    oversold: {INTEGER NUMBER, WHOLE NUMBER}
+  volume:
+    moving_avg_length: {INTEGER NUMBER, WHOLE NUMBER}
+  risk_management:
+    take_profit_percent: {PERCENTAGE * 100, EX: 1.0 FOR 1%}  # Take Profit percentage
+    stop_loss_percent: {PERCENTAGE * 100, EX: 1.0 FOR 1%}   # Stop Loss percentage
+  trade_settings:
+    open_position_percentage: {PERCENTAGE * 100, EX: 1.0 FOR 1%}  # 10% of wallet balance for opening positions
+    close_position_percentage: {PERCENTAGE * 100, EX: 1.0 FOR 1%} # 90% of the current position for closing
