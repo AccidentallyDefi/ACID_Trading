@@ -63,7 +63,7 @@ cd ACID_Trading
 Install all required Python packages by running:
 
 ```bash
-pip install -r requirements.txt
+pip install -r utils/requirements.txt
 ```
 
 If you encounter issues installing **TA-Lib**, you can download the necessary binaries for your operating system and run:
