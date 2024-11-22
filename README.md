@@ -231,4 +231,3 @@ This project is licensed under the **Apache 2.0 License**. See the `LICENSE` fil
 ## Contact
 
 Created by **AccidentallyDeFi**  
-For support or inquiries, email: `your-email@example.com`.
