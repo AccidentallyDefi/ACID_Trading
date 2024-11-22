@@ -1,0 +1,19 @@
+# Core dependencies
+web3==5.31.3              # Ethereum blockchain interaction
+python-dotenv     # For loading environment variables from .env files
+requests         # HTTP requests for API communication
+yfinance          # Fetch historical price data
+
+# Utilities
+pyaml          # Enhanced YAML support
+pandas==1.4.2             # Data manipulation and analysis
+numerize           # Utility for formatting large numbers
+
+# Project-specific dependencies
+utils                     # Utility functions (local or external dependency)
+gmx-python-sdk            # GMX SDK for interacting with GMX exchange
+
+# Additional libraries
+numpy            # Numerical computations
+hexbytes           # Utility for hexadecimal data
+pyyaml              # YAML file parsing
